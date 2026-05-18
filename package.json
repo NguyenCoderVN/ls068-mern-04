@@ -1,0 +1,39 @@
+{
+  "name": "ls068-mern-04",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "backend/server.js",
+  "scripts": {
+    "dev": "nodemon backend/server.js",
+    "start": "node backend/server.js"
+  },
+  "imports": {
+    "#*": [
+      "./backend/*"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NguyenCoderVN/ls068-mern-04.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NguyenCoderVN/ls068-mern-04/issues"
+  },
+  "homepage": "https://github.com/NguyenCoderVN/ls068-mern-04#readme",
+  "dependencies": {
+    "axios": "^1.16.1",
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.6.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
