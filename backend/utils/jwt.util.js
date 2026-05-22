@@ -1,3 +1,4 @@
+import { redisClient } from "#db/redis.js";
 import jwt from "jsonwebtoken";
 
 export const setAuthCookie = (
@@ -19,4 +20,53 @@ export const setAuthCookie = (
   });
 
   return token;
+};
+
+export const blacklistToken = async (
+  req,
+  cookieName = process.env.COOKIE_NAME,
+  prefix = "blacklist:",
+  value = "revoked",
+) => {
+  const token = req?.cookies?.[cookieName];
+
+  if (!token) return;
+
+  const decoded = jwt.decode(token);
+
+  if (decoded && decoded.exp) {
+    const currentTimeInSeconds = Math.floor(Date.now() / 1000);
+    const timeToLive = decoded.exp - currentTimeInSeconds;
+
+    if (timeToLive > 0) {
+      await redisClient.set(
+        `${prefix}${token}`,
+        value,
+        "EX",
+        timeToLive,
+      );
+    }
+  }
+};
+
+export const isTokenBlacklisted = async (
+  token,
+  prefix = "blacklist:",
+) => {
+  if (!token) return false;
+
+  const result = await redisClient.get(`${prefix}${token}`);
+
+  return result !== null;
+};
+
+export const clearAuthCookie = (
+  res,
+  cookieName = process.env.COOKIE_NAME,
+) => {
+  res.clearCookie(cookieName, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== "development",
+    sameSite: "strict",
+  });
 };

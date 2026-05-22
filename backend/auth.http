@@ -36,6 +36,8 @@ password=Password123@
 
 ### 
 
+# @attach-cookie-jar
+
 POST {{baseUrl}}/logout HTTP/1.1
 
 {}

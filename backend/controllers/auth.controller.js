@@ -1,5 +1,9 @@
 import authService from "#services/auth.service.js";
-import { setAuthCookie } from "#utils/jwt.util.js";
+import {
+  blacklistToken,
+  clearAuthCookie,
+  setAuthCookie,
+} from "#utils/jwt.util.js";
 
 export const signup = async (req, res) => {
   const user = await authService.signup(req.body);
@@ -25,8 +29,10 @@ export const login = async (req, res) => {
   });
 };
 
-export const logout = async (_req, res) => {
-  res.cookie(process.env.COOKIE_NAME, "", { maxAge: 0 });
+export const logout = async (req, res) => {
+  await blacklistToken(req);
+
+  clearAuthCookie(res);
 
   res.status(200).json({
     message: "Logout successfully",
