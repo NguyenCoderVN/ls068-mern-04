@@ -22,10 +22,6 @@ export const errorHandler = (err, _req, res, _next) => {
     }
   }
 
-  err.status =
-    err.status ||
-    (`${err.statusCode}`.startsWith("4") ? "fail" : "error");
-
   if (
     process.env.NODE_ENV === "production" &&
     err.statusCode === 500
@@ -45,7 +41,9 @@ export const errorHandler = (err, _req, res, _next) => {
         const trimmedLine = line.trim();
         if (
           trimmedLine.includes("node:internal") ||
-          !trimmedLine.includes("/")
+          !trimmedLine.includes("/") ||
+          trimmedLine.includes("lib/") ||
+          trimmedLine.includes("router/index.js")
         ) {
           return null;
         }
@@ -60,7 +58,6 @@ export const errorHandler = (err, _req, res, _next) => {
       message: responseMessage,
       error: {
         statusCode: err.statusCode,
-        status: err.status,
         isOperational: err.isOperational || false,
       },
       stack: cleanStack,
@@ -68,7 +65,6 @@ export const errorHandler = (err, _req, res, _next) => {
   }
 
   return res.status(err.statusCode).json({
-    status: err.status,
     message: responseMessage,
   });
 };

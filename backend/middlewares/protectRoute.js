@@ -3,7 +3,7 @@ import AppError from "#utils/appError.js";
 import authService from "#services/auth.service.js";
 
 export const protectRoute = async (req, _res, next) => {
-  const token = req.cookies["jwt"];
+  const token = req.cookies[process.env.COOKIE_NAME];
 
   if (!token) {
     throw new AppError("Unauthorized - No Token Provided", 401);

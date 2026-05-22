@@ -3,73 +3,15 @@
 @baseUrl = http://localhost:5000/api/auth
 
 
-### 1. Test Success: Valid Registration Data
-
-POST {{baseUrl}}/signups HTTP/1.1
-Content-Type: application/json
-
-{
-  "email": "test05@example.com",
-  "password": "password123",
-  "username": "Test"
-}
-
-
-### 2. Test Error: Missing Fields (Will be caught by validateSignup)
+### Registration
 
 POST {{baseUrl}}/signup HTTP/1.1
 Content-Type: application/json
 
 {
-  "username": "test04"
-}
-
-
-### 3. Test Error: Invalid Email Format
-
-POST {{baseUrl}}/signup HTTP/1.1
-Content-Type: application/json
-
-{
-  "email": "invalid-email-format",
-  "password": "password123",
-  "username": "test04"
-}
-
-
-### 4. Test Error: Password too short (< 6 characters)
-
-POST {{baseUrl}}/signup HTTP/1.1
-Content-Type: application/json
-
-{
-  "email": "bobsmith@example.com",
-  "password": "12345",
-  "username": "bobsmith"
-}
-
-
-### 5. Test Error: Duplicate Email (You must run Test 1 successfully first)
-
-POST {{baseUrl}}/signup HTTP/1.1
-Content-Type: application/json
-
-{
-  "email": "johndoe@example.com",
-  "password": "password123",
-  "username": "another_user"
-}
-
-
-### 6. Test Error: Duplicate Username
-
-POST {{baseUrl}}/signup HTTP/1.1
-Content-Type: application/json
-
-{
-  "email": "another_email@example.com",
-  "password": "password123",
-  "username": "johndoe123"
+  "email": "est04@example.com",
+  "password": "password123@",
+  "username": "est04"
 }
 
 
@@ -88,5 +30,25 @@ POST {{baseUrl}}/login HTTP/1.1
 POST {{baseUrl}}/login HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-username=test01&
-password=password123
+username=Test03&
+password=Password123@
+
+
+### 
+
+POST {{baseUrl}}/logout HTTP/1.1
+
+{}
+
+
+### 
+
+# @attach-cookie-jar
+
+GET {{baseUrl}}/authCheck HTTP/1.1
+
+
+### 
+
+GET {{baseUrl}}/authCheck HTTP/1.1
+Cookie: jwt={{FORM.response.cookies.jwt.value}}

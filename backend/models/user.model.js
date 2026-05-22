@@ -18,18 +18,6 @@ const userSchema = new mongoose.Schema(
       required: true,
       select: false,
     },
-    cartItems: [
-      {
-        quantity: {
-          type: Number,
-          default: 1,
-        },
-        product: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
-        },
-      },
-    ],
     role: {
       type: String,
       enum: ["customer", "admin"],
@@ -40,6 +28,16 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
+
+userSchema.set("toJSON", {
+  transform: function (_doc, ret) {
+    delete ret.password;
+    delete ret.createdAt;
+    delete ret.updatedAt;
+    delete ret.__v;
+    return ret;
+  },
+});
 
 const User = mongoose.model("User", userSchema);
 
