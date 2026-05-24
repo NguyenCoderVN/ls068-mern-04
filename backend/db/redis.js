@@ -1,8 +1,9 @@
 import Redis from "ioredis";
 import dotenv from "dotenv";
+import { ENV_VARS } from "./env.js";
 dotenv.config();
 
-export const redisClient = new Redis(process.env.UPSTASH_REDIS_URL);
+export const redisClient = new Redis(ENV_VARS.REDIS_URL);
 
 redisClient.on("connect", () => {
   console.log("Redis connected successfully");

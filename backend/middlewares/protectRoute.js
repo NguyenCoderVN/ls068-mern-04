@@ -1,10 +1,11 @@
 import jwt from "jsonwebtoken";
 import AppError from "#utils/appError.js";
-import authService from "#services/auth.service.js";
+import * as authService from "#services/auth.service.js";
 import { isTokenBlacklisted } from "#utils/jwt.util.js";
+import { ENV_VARS } from "#db/env.js";
 
 export const protectRoute = async (req, _res, next) => {
-  const token = req.cookies[process.env.COOKIE_NAME];
+  const token = req.cookies["jwt"];
 
   if (!token)
     throw new AppError("Unauthorized - No Token Provided", 401);
@@ -16,7 +17,7 @@ export const protectRoute = async (req, _res, next) => {
     );
   }
 
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const decoded = jwt.verify(token, ENV_VARS.JWT_SECRET);
   const user = await authService.getUserById(decoded.userId);
 
   if (!user) throw new AppError("Unauthorized - User not found", 401);

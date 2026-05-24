@@ -8,52 +8,48 @@ import {
 const FAKE_HASH =
   "$2b$12$LycX7N4mGfWJ.qKv2g4fO.examplefakehashdonotuseonesir";
 
-class AuthService {
-  async signup(userData) {
-    const { username, email, password } = userData;
+export const signup = async (userData) => {
+  const { username, email, password } = userData;
 
-    const existingUser = await User.findOne({
-      $or: [{ email }, { username }],
-    });
+  const existingUser = await User.findOne({
+    $or: [{ email }, { username }],
+  });
 
-    if (existingUser) {
-      throw new AppError("Email or Username already exists", 400);
-    }
-
-    const hashedPassword = await hashPassword(password);
-
-    const user = await User.create({
-      username,
-      email,
-      password: hashedPassword,
-    });
-
-    return user;
+  if (existingUser) {
+    throw new AppError("Email or Username already exists", 400);
   }
 
-  async login({ username, password }) {
-    const user = await User.findOne({ username }).select("+password");
+  const hashedPassword = await hashPassword(password);
 
-    const hashToCompare = user ? user.password : FAKE_HASH;
-    const isMatch = await comparePassword(password, hashToCompare);
+  const user = await User.create({
+    username,
+    email,
+    password: hashedPassword,
+  });
 
-    if (!user || !isMatch) {
-      throw new AppError("Invalid username or password", 401);
-    }
+  return user;
+};
 
-    user.password = undefined;
-    return user;
+export const login = async ({ username, password }) => {
+  const user = await User.findOne({ username }).select("+password");
+
+  const hashToCompare = user ? user.password : FAKE_HASH;
+  const isMatch = await comparePassword(password, hashToCompare);
+
+  if (!user || !isMatch) {
+    throw new AppError("Invalid username or password", 401);
   }
 
-  async getUserById(userId) {
-    const user = await User.findById(userId);
+  user.password = undefined;
+  return user;
+};
 
-    if (!user) {
-      throw new AppError("User not found", 404);
-    }
+export const getUserById = async (userId) => {
+  const user = await User.findById(userId);
 
-    return user;
+  if (!user) {
+    throw new AppError("User not found", 404);
   }
-}
 
-export default new AuthService();
+  return user;
+};

@@ -1,11 +1,13 @@
+import { ENV_VARS } from "#db/env.js";
 import { redisClient } from "#db/redis.js";
 import jwt from "jsonwebtoken";
+import ms from "ms";
 
 export const setAuthCookie = (
   res,
   userId,
-  cookieName = process.env.COOKIE_NAME,
-  secret = process.env.JWT_SECRET,
+  cookieName = ENV_VARS.COOKIE_NAME,
+  secret = ENV_VARS.JWT_SECRET,
   expiresIn = "7d",
 ) => {
   const token = jwt.sign({ userId }, secret, {
@@ -13,10 +15,10 @@ export const setAuthCookie = (
   });
 
   res.cookie(cookieName, token, {
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: ms(expiresIn),
     httpOnly: true,
     sameSite: "strict",
-    secure: process.env.NODE_ENV !== "development",
+    secure: ENV_VARS.NODE_ENV !== "development",
   });
 
   return token;
@@ -24,7 +26,7 @@ export const setAuthCookie = (
 
 export const blacklistToken = async (
   req,
-  cookieName = process.env.COOKIE_NAME,
+  cookieName = ENV_VARS.COOKIE_NAME,
   prefix = "blacklist:",
   value = "revoked",
 ) => {
@@ -62,11 +64,11 @@ export const isTokenBlacklisted = async (
 
 export const clearAuthCookie = (
   res,
-  cookieName = process.env.COOKIE_NAME,
+  cookieName = ENV_VARS.COOKIE_NAME,
 ) => {
   res.clearCookie(cookieName, {
     httpOnly: true,
-    secure: process.env.NODE_ENV !== "development",
+    secure: ENV_VARS.NODE_ENV !== "development",
     sameSite: "strict",
   });
 };

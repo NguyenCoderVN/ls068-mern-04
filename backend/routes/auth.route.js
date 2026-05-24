@@ -12,5 +12,5 @@ export const authRoutes = Router();
 
 authRoutes.post("/signup", validateSignup, signup);
 authRoutes.post("/login", login);
-authRoutes.post("/logout", logout);
+authRoutes.post("/logout", protectRoute, logout);
 authRoutes.get("/authCheck", protectRoute, authCheck);

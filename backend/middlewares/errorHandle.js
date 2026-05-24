@@ -1,3 +1,5 @@
+import { ENV_VARS } from "#db/env.js";
+
 export const errorHandler = (err, _req, res, _next) => {
   err.statusCode = err.statusCode || 500;
 
@@ -22,10 +24,7 @@ export const errorHandler = (err, _req, res, _next) => {
     }
   }
 
-  if (
-    process.env.NODE_ENV === "production" &&
-    err.statusCode === 500
-  ) {
+  if (ENV_VARS.NODE_ENV === "production" && err.statusCode === 500) {
     err.message = "Internal Server Error";
   }
 
@@ -34,7 +33,7 @@ export const errorHandler = (err, _req, res, _next) => {
     ? err.errors
     : err.message;
 
-  if (process.env.NODE_ENV === "development") {
+  if (ENV_VARS.NODE_ENV === "development") {
     const stackArray = err.stack ? err.stack.split("\n") : [];
     const cleanStack = stackArray
       .map((line) => {

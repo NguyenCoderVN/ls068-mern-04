@@ -1,4 +1,4 @@
-import authService from "#services/auth.service.js";
+import * as authService from "#services/auth.service.js";
 import {
   blacklistToken,
   clearAuthCookie,
@@ -8,12 +8,8 @@ import {
 export const signup = async (req, res) => {
   const user = await authService.signup(req.body);
 
-  setAuthCookie(res, user._id);
-
   res.status(201).json({
-    data: {
-      user,
-    },
+    user,
   });
 };
 
@@ -23,9 +19,7 @@ export const login = async (req, res) => {
   setAuthCookie(res, user._id);
 
   res.status(200).json({
-    data: {
-      user,
-    },
+    user,
   });
 };
 
@@ -41,8 +35,6 @@ export const logout = async (req, res) => {
 
 export const authCheck = async (req, res) => {
   res.status(200).json({
-    data: {
-      user: req.user,
-    },
+    user: req.user,
   });
 };
