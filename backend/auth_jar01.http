@@ -1,0 +1,18 @@
+@baseUrl = http://localhost:5000/api/auth
+
+
+### LOGIN
+
+# @name token = {{LOGIN.response.cookies.jwt.value}}
+POST {{baseUrl}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "test04",
+  "password": "Password123@"
+}
+
+### AUTH CHECK
+
+GET {{baseUrl}}/authCheck HTTP/1.1
+Cookie: jwt={{token}}

@@ -1,0 +1,19 @@
+### RQ1
+
+POST https://httpbin.org/post HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "token": "foobar"
+}
+
+### RQ2
+
+POST https://httpbin.org/post HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "token": "{{RQ1.response.body.$.json.token}}"
+}
