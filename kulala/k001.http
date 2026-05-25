@@ -1,0 +1,22 @@
+@baseUrl = http://localhost:5000/api/auth
+
+
+### ABC
+
+POST {{baseUrl}}/check HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "test": "abc"
+}
+
+### REQUEST_TWO
+
+POST {{baseUrl}}/check HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "token": "{{ABC.response.body.$.test}}"
+}

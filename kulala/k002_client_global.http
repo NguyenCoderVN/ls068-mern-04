@@ -1,0 +1,63 @@
+@baseUrl = https://httpbin.org
+
+
+### REQUEST_ONE
+
+< {%
+  var crypto = require('crypto');
+  var fs = require('fs');
+
+  var TOKEN = fs.readFileSync('TOKEN.txt', 'utf8').trim();
+
+  client.global.set('GORILLA', TOKEN);
+
+  request.variables.set(
+    'PASSWORD',
+    crypto.randomBytes(16).toString('hex')
+  );
+%}
+POST {{baseUrl}}/post HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "token": "{{GORILLA}}",
+  "password": "{{PASSWORD}}",
+  "deep": {
+    "nested": [
+      {
+        "key": "foo"
+      },
+      {
+        "key": "bar"
+      }
+    ]
+  }
+}
+
+> {%
+  client.global.set(
+    'TOKEN_FROM_RESPONSE',
+    response.body.$.json.token
+  );
+
+  client.global.set(
+    'NESTED_KEY',
+    response.body.$.json.deep.nested[0].key
+  );
+
+  console.log(client.global.get('TOKEN_FROM_RESPONSE'));
+  console.log(client.global.get('NESTED_KEY'));
+%}
+
+### REQUEST_TWO
+
+POST {{baseUrl}}/post HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "token": "{{TOKEN_FROM_RESPONSE}}",
+  "nested": "{{NESTED_KEY}}",
+  "gorilla": "{{GORILLA}}"
+}

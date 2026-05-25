@@ -1,0 +1,68 @@
+@document.meta
+title: Hướng Dẫn Sử Dụng Neorg Mẫu
+description: File demo các tính năng cơ bản của cú pháp .norg
+authors: NguyenCoder
+categories: [learning, neorg]
+created: 2026-05-23
+version: 1.0.0
+@end
+* Monday 25 May 2026: 
+** add post /test api req=>res
+** 2 model mới
+
+
+
+
+* Chào mừng bạn đến với Neorg!
+  Đây là một file mẫu giúp bạn hình dung cách viết và ghi chú bằng cú pháp `.norg`.
+  Khi bạn bật `conceallevel=2`, các ký tự như `*`, `-`, `.` ở đầu dòng sẽ biến thành các icon cực kỳ trực quan.
+
+** 1. Định dạng văn bản (Text Formatting)
+   Bạn có thể làm nổi bật văn bản bằng các ký tự bao bọc:
+   - *Chữ in đậm* (Bọc bằng dấu `*`)
+   - /Chữ in nghiêng/ (Bọc bằng dấu `/`)
+   - _Chữ gạch chân_ (Bọc bằng dấu `_`)
+   - -Chữ gạch ngang- (Bọc bằng dấu `-`)
+   - =Chữ dạng code/inline= (Bọc bằng dấu `=`)
+
+** 2. Danh sách và Nhiệm vụ (Lists & Tasks)
+   Neorg phân biệt danh sách thường và danh sách công việc rất thông minh.
+
+*** Danh sách thường
+    - Mục thứ nhất
+    -- Mục con cấp 2
+    -- Một mục con khác
+    - Mục thứ hai
+
+*** Danh sách công việc (To-Do List)
+    Di chuyển con trỏ (cursor) vào các dấu chấm dưới đây và nhấn nút *`<Space>`* để đổi trạng thái:
+    . [ ] Đây là một task chưa làm (Chưa check)
+    .. [ ] Task con cấp dưới
+    . [-] Đây là một task đang làm (Pending)
+    . [x] Đây là một task đã hoàn thành (Done)
+    . [|] Đây là một task đang tạm hoãn (On hold)
+
+** 3. Chèn Code Block
+   Để lưu trữ các đoạn code ngắn, sử dụng khối `@code` đi kèm tên ngôn ngữ:
+
+   @code lua
+   -- Cấu hình nhanh Neorg trong cặp code block
+   require('neorg').setup {
+       load = {
+           ["core.defaults"] = {},
+           ["core.concealer"] = {},
+       }
+   }
+   @end
+
+** 4. Liên kết và Kết nối (Hyperlinks)
+   Neorg cho phép bạn liên kết linh hoạt giữa các tài liệu hoặc link web:
+   - Liên kết website: [GitHub của Neorg]{https://github.com/nvim-neorg/neorg}
+   - Liên kết đến một tiêu đề trong chính file này: [Xem lại phần Code]{* 3. Chèn Code Block}
+   - Liên kết sang một file khác cùng thư mục: [Mở file ghi chú dự án]{:project-ideas:} (Sẽ tìm file `project-ideas.norg`)
+
+** 5. Trích dẫn (Quotes & Metadata)
+   > "Ghi chú hiệu quả giúp bộ não giải phóng không gian để tư duy sáng tạo hơn."
+
+---
+*Mẹo nhỏ:* Hãy thử gõ thêm `** Tiêu đề mới` ở cuối file này để thấy cách Treesitter tự động tô màu và phân cấp tiêu đề theo thời gian thực!
