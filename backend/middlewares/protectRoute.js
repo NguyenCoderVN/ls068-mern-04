@@ -5,7 +5,7 @@ import { isTokenBlacklisted } from "#utils/jwt.util.js";
 import { ENV_VARS } from "#db/env.js";
 
 export const protectRoute = async (req, _res, next) => {
-  const token = req.cookies["jwt"];
+  const token = req.cookies["accessToken"];
 
   if (!token)
     throw new AppError("Unauthorized - No Token Provided", 401);
@@ -17,7 +17,7 @@ export const protectRoute = async (req, _res, next) => {
     );
   }
 
-  const decoded = jwt.verify(token, ENV_VARS.JWT_SECRET);
+  const decoded = jwt.verify(token, ENV_VARS.ACCESS_TOKEN_SECRET);
   const user = await authService.getUserById(decoded.userId);
 
   if (!user) throw new AppError("Unauthorized - User not found", 401);

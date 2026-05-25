@@ -7,7 +7,7 @@ export const setAuthCookie = (
   res,
   userId,
   cookieName = ENV_VARS.COOKIE_NAME,
-  secret = ENV_VARS.JWT_SECRET,
+  secret = ENV_VARS.REFRESH_TOKEN_SECRET,
   expiresIn = "7d",
 ) => {
   const token = jwt.sign({ userId }, secret, {
@@ -24,6 +24,14 @@ export const setAuthCookie = (
   return token;
 };
 
+export const storeRefreshToken = async (userId, refreshToken) => {
+  await redisClient.set(
+    `refreshToken:${userId}`,
+    refreshToken,
+    "PX",
+    ms("7d"),
+  );
+};
 export const blacklistToken = async (
   req,
   cookieName = ENV_VARS.COOKIE_NAME,

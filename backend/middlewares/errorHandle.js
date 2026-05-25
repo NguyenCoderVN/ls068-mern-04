@@ -56,6 +56,7 @@ export const errorHandler = (err, _req, res, _next) => {
     return res.status(err.statusCode).json({
       message: responseMessage,
       error: {
+        errorName: err.name,
         statusCode: err.statusCode,
         isOperational: err.isOperational || false,
       },
