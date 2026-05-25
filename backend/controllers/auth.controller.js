@@ -1,3 +1,4 @@
+import { ENV_VARS } from "#db/env.js";
 import * as authService from "#services/auth.service.js";
 import {
   blacklistToken,
@@ -16,8 +17,19 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
   const user = await authService.login(req.body);
 
-  setAuthCookie(res, user._id);
-
+  const refreshToken = setAuthCookie(
+    res,
+    user._id,
+    "refreshToken",
+    ENV_VARS.REFRESH_TOKEN_SECRET,
+  );
+  setAuthCookie(
+    res,
+    user._id,
+    "accessToken",
+    ENV_VARS.ACCESS_TOKEN_SECRET,
+    "15m",
+  );
   res.status(200).json({
     user,
   });

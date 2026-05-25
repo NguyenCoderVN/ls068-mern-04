@@ -9,7 +9,16 @@ Content-Type: application/x-www-form-urlencoded
 username=test04&
 password=Password123@
 
-### AUTH92
+### JSON
+
+POST {{baseUrl}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "test04",
+  "password": "Password123@"
+}
+
+### authCheck
 
 GET {{baseUrl}}/authCheck HTTP/1.1
-Cookie: jwt="{{LOGIN.response.cookies.jwt.value}}"

@@ -1,13 +1,8 @@
 @document.meta
 title: Hướng Dẫn Sử Dụng Neorg Mẫu
-description: File demo các tính năng cơ bản của cú pháp .norg
-authors: NguyenCoder
-categories: [learning, neorg]
-created: 2026-05-23
-version: 1.0.0
 @end
 * Monday 25 May 2026: 
-** add post /test api req=>res
+** create refressToken, accessToken when login 
 ** 2 model mới
 
 
